@@ -109,4 +109,54 @@ public class CompetitionServiceImplTest {
          //THEN
          Assertions.assertEquals("Performer successfully registered.", actual);
      }
+
+    @Test
+    public void deleteCompetition_ShouldReturnPositiveMessage_WhenTheCompetitionIsDeleted() {
+        //GIVEN
+        Mockito.when(competitionRepository.deleteCompetition(COMPETITION_ID)).thenReturn(true);
+
+        //WHEN
+        String actual = underTest.deleteCompetition(COMPETITION_ID);
+
+        //THEN
+        Assertions.assertEquals("Competition successfully deleted.", actual);
+    }
+
+    @Test
+    public void deleteCompetition_ShouldReturnNegativeMessage_WhenTheCompetitionIsNotFound() {
+        //GIVEN
+        Mockito.when(competitionRepository.deleteCompetition(COMPETITION_ID)).thenReturn(false);
+
+        //WHEN
+        String actual = underTest.deleteCompetition(COMPETITION_ID);
+
+        //THEN
+        Assertions.assertEquals("The competition could not be found.", actual);
+    }
+
+    @Test
+    public void updateCompetition_ShouldReturnPositiveMessage_WhenTheCompetitionIsUpdated() {
+        //GIVEN
+        Competition competition = new Competition(COMPETITION_ID, COMPETITION_DATE, LOCATION, MAX_PERFORMERS);
+        Mockito.when(competitionRepository.updateCompetition(Mockito.any(Competition.class))).thenReturn(true);
+
+        //WHEN
+        String actual = underTest.updateCompetition(competition);
+
+        //THEN
+        Assertions.assertEquals("Competition successfully updated.", actual);
+    }
+
+    @Test
+    public void updateCompetition_ShouldReturnNegativeMessage_WhenTheCompetitionIsNotFound() {
+        //GIVEN
+        Competition competition = new Competition(COMPETITION_ID, COMPETITION_DATE, LOCATION, MAX_PERFORMERS);
+        Mockito.when(competitionRepository.updateCompetition(Mockito.any(Competition.class))).thenReturn(false);
+
+        //WHEN
+        String actual = underTest.updateCompetition(competition);
+
+        //THEN
+        Assertions.assertEquals("The competition could not be found.", actual);
+    }
 }
