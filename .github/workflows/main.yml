@@ -1,6 +1,8 @@
-name: Build, report
+name: Main workflow
 
-on: [push]
+on:
+  push:
+    branches: [ main ]
 
 jobs:
   build: #<-Szabadon választható név
