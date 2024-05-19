@@ -1,11 +1,11 @@
 package nye.progkor.repository.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import nye.progkor.model.Competition;
 import nye.progkor.repository.CompetitionRepository;
 import org.springframework.stereotype.Repository;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Repository
 public class CompetitionRepositoryImpl implements CompetitionRepository {
