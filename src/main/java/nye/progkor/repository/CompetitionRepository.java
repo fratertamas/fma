@@ -1,8 +1,8 @@
 package nye.progkor.repository;
 
-import nye.progkor.model.Competition;
-
 import java.util.List;
+
+import nye.progkor.model.Competition;
 
 public interface CompetitionRepository {
     List<Competition> getAllCompetition();
