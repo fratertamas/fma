@@ -34,12 +34,7 @@
             <scope>test</scope>
         </dependency>
 
-        <!--brcypt implementation in springboot-security-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-security</artifactId>
-            <version>3.2.5</version>
-        </dependency>
+
     </dependencies>
 
     <build>
