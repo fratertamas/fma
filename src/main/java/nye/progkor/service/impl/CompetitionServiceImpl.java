@@ -1,12 +1,12 @@
 package nye.progkor.service.impl;
 
+import java.util.List;
+
 import nye.progkor.model.Competition;
 import nye.progkor.model.Performer;
 import nye.progkor.repository.CompetitionRepository;
 import nye.progkor.service.CompetitionService;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class CompetitionServiceImpl implements CompetitionService {
