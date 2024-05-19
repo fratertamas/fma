@@ -3,25 +3,31 @@ name: Build, report
 on: [push]
 
 jobs:
-  compile:
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v4
-      - name: set up JDK17
-        uses: actions/setup-java@v3
-        with:
+  build: #<-Szabadon választható név
+    runs-on: ubuntu-latest # megadjuk a jobot futtató környezetet
+    permissions:
+      contents: read #Engedélyezzük a repository tartalmának az olvasását
+      packages: write #Engedélyezzük a github packages használatát
+    steps: #Definiáljuk a step-eket
+      - name: Checkout  #step neve
+        uses: actions/checkout@v2  #action neve, ez az action checkoutolja a repo-t
+      - name: Set up JDK 17
+        uses: actions/setup-java@v2 #Java setup
+        with: #Paraméterek a setup-java@v2 parancshoz
           java-version: '17'
-      - name: compile with maven
-        run: mvn compile
-      - name: Run tests
-        run: mvn test
-      - name: Coverage with JaCoCo
-        if: always()
-        run: mvn jacoco:report
-      - name: Publish coverage report
-        if: always()
-        uses: actions/upload-artifact@v3
-        with:
-          name: fma-coverage
-          path: ./target/site/jacoco
+          distribution: 'temurin'
+          cache: maven
+      - name: Build and publish with Maven
+        run: |
+          # Versioning setup
+          version_prefix=`mvn help:evaluate -Dexpression=project.version --quiet -DforceStdout --file pom.xml | awk -F. '{print $1"."$2}'`
+          version="$version_prefix.${{github.run_number}}"
+          echo "Setting artifact version to $version"
+          # Push version to env
+          echo "ARTIFACT_VERSION=$version" >> $GITHUB_ENV
+          # Overwrite local artifact version
+          mvn -B versions:set -DnewVersion="$version" --file pom.xml
+          mvn -B deploy --file pom.xml
+          cp "target/fma-${version}.jar" "target/fma.jar"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
