@@ -89,6 +89,7 @@
                         <exclude>nye/progkor/Starter.*</exclude>
                         <exclude>nye/progkor/repository/CompetitionRepository.class</exclude>
                         <exclude>nye/progkor/service/CompetitionService.class</exclude>
+                        <exclude>nye/progkor/controller/CompetitionController.class</exclude>
                     </excludes>
                 </configuration>
                 <executions>
