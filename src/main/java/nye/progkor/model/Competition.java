@@ -1,5 +1,6 @@
 package nye.progkor.model;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -10,12 +11,12 @@ public class Competition {
     private int maxPerformers;
     private List<Performer> registretedPerformers;
 
-    public Competition(String id, Date date, String location, int maxPerformers, List<Performer> registretedPerformers) {
+    public Competition(String id, Date date, String location, int maxPerformers) {
         this.id = id;
         this.date = date;
         this.location = location;
         this.maxPerformers = maxPerformers;
-        this.registretedPerformers = registretedPerformers;
+        this.registretedPerformers = new ArrayList<>();
     }
 
     public String getId() {
