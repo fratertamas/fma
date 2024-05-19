@@ -1,9 +1,9 @@
 package nye.progkor.service;
 
+import java.util.List;
+
 import nye.progkor.model.Competition;
 import nye.progkor.model.Performer;
-
-import java.util.List;
 
 public interface CompetitionService {
     String createCompetition(Competition competition);
