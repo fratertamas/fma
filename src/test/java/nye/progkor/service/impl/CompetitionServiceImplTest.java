@@ -1,6 +1,7 @@
 package nye.progkor.service.impl;
 import nye.progkor.model.Competition;
 import nye.progkor.model.Performer;
+import nye.progkor.model.PerformerCategory;
 import nye.progkor.repository.CompetitionRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -11,9 +12,11 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
 import java.util.Date;
+import java.util.List;
 
 
 public class CompetitionServiceImplTest {
@@ -67,4 +70,43 @@ public class CompetitionServiceImplTest {
         Assertions.assertEquals("Competition successfully created.", result);
     }
 
+    @Test
+    public void createCompetition_ShouldReturnNegativeMessage_WhenTheCompetitionCannotBeAdd() {
+        //GIVEN
+        Competition competition = new Competition(COMPETITION_ID, COMPETITION_DATE, LOCATION, MAX_PERFORMERS);
+        Mockito.when(competitionRepository.saveCompetition(Mockito.any(Competition.class))).thenReturn(false);
+
+        //WHEN
+        String result = underTest.createCompetition(competition);
+
+        //THEN
+        Assertions.assertEquals("The competition already exists.", result);
+    }
+
+     @Test
+    public void getAllCompetition_ShouldReturnRegisteredCompetition_WhenCalled() {
+        //GIVEN
+         List<Competition> excepted = new ArrayList<>(List.of(new Competition(COMPETITION_ID, COMPETITION_DATE, LOCATION, MAX_PERFORMERS)));
+         Mockito.when(competitionRepository.getAllCompetition()).thenReturn(excepted);
+
+         //WHEN
+         List<Competition> actual = underTest.getAllCompetition();
+
+         //THEN
+         Assertions.assertEquals(excepted, actual);
+     }
+
+     @Test
+    public void registerPerformerForCompetition_ShouldAddThePerformerToTheCompetition_WhenTheCompetitionExistAndThePerformerNotAlreadyRegistered() {
+        //GIVEN
+         performer = new Performer(MEMBERSHIP_ID, PERFORMER_NAME, PerformerCategory.VOCAL);
+         Competition competition = new Competition(COMPETITION_ID, COMPETITION_DATE, LOCATION, MAX_PERFORMERS);
+         Mockito.when(competitionRepository.findCompetitionById(COMPETITION_ID)).thenReturn(competition);
+
+         //WHEN
+         String actual = underTest.registerPerformerForCompetition(COMPETITION_ID,performer);
+
+         //THEN
+         Assertions.assertEquals("Performer successfully registered.", actual);
+     }
 }
